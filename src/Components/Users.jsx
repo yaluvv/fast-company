@@ -16,43 +16,46 @@ const Users = () => {
   }
 
   return (
-    <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>Имя</th>
-          <th>Качества</th>
-          <th>Профессия</th>
-          <th>Встретился раз</th>
-          <th>Оценка</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map((user) => {
-          return (
-            <tr key={user._id}>
-              <td>{user.name}</td>
-              <td>
-                {user.qualities.map((item) => {
-                  return (
-                    <Badge className="me-1" key={item._id} bg={item.color}>
-                      {item.name}
-                    </Badge>
-                  );
-                })}
-              </td>
-              <td>{user.profession.name}</td>
-              <td>{user.completedMeetings}</td>
-              <td>{user.rate}</td>
-              <td>
-                <Button onClick={() => deleteUser(user._id)} variant="danger">
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
+    <div>
+      <h1 className="p-3 mb-2 bg-dark text-white">{`Количество пользователей ${users.length}`}</h1>
+      <Table striped bordered hover size="sm">
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Качества</th>
+            <th>Профессия</th>
+            <th>Встретился раз</th>
+            <th>Оценка</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => {
+            return (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>
+                  {user.qualities.map((item) => {
+                    return (
+                      <Badge className="me-1" key={item._id} bg={item.color}>
+                        {item.name}
+                      </Badge>
+                    );
+                  })}
+                </td>
+                <td>{user.profession.name}</td>
+                <td>{user.completedMeetings}</td>
+                <td>{user.rate}</td>
+                <td>
+                  <Button onClick={() => deleteUser(user._id)} variant="danger">
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
+    </div>
   );
 };
 
