@@ -1,32 +1,65 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import API from "../API";
 import Table from "react-bootstrap/Table";
 import User from "./User";
+import Filter from "./Filter";
 import AdvancedExample from "./Pagination";
+import TotalUsersTitle from "./TotalUsersTitle";
 
 const pageSize = 4;
 
 const Users = ({ users, onDelete, onFavorite }) => {
     const [currentPage, setCurrentPage] = React.useState(1);
-    const itemsCount = users.length;
+    const [professions, setProfessions] = React.useState([]);
+    const [activeProfession, setActiveProfession] = React.useState("");
+    const isLoad = React.useRef(true);
 
     const paginate = (items, currentPage, pageSize) => {
         const startIndex = (currentPage - 1) * pageSize;
         return [...items].splice(startIndex, pageSize);
     };
 
-    const usersDivided = paginate(users, currentPage, pageSize);
+    React.useEffect(() => {
+        API.professions.fetchAll().then((data) => {
+            setProfessions(data);
+            isLoad.current = false;
+        });
+    }, []);
+
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [activeProfession]);
+
+    const handleActiveProfession = (item) => {
+        setActiveProfession(item);
+    };
+
+    const clearFilter = () => {
+        setActiveProfession("");
+    };
+    const filterdUsers = activeProfession
+        ? users.filter((user) => user.profession.name === activeProfession)
+        : users;
+
+    const itemsCount = filterdUsers.length;
+
+    const usersDivided = paginate(filterdUsers, currentPage, pageSize);
 
     const handleChangePage = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
-    if (!itemsCount) {
-        return <h1>Empty users</h1>;
-    }
-
     return (
         <div>
+            <TotalUsersTitle length={itemsCount} />
+            <Filter
+                items={professions}
+                activeProfession={activeProfession}
+                onClickProfession={handleActiveProfession}
+                onClearFilter={clearFilter}
+            />
             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
@@ -51,6 +84,7 @@ const Users = ({ users, onDelete, onFavorite }) => {
                     })}
                 </tbody>
             </Table>
+
             <AdvancedExample
                 pageSize={pageSize}
                 itemsCount={itemsCount}
