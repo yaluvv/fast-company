@@ -7,7 +7,7 @@ const App = () => {
     const [users, setUsers] = React.useState([]);
     const deleteUser = (id) =>
         setUsers(users.filter((user) => user._id !== id));
-    const addFavorite = (id) =>
+    const handleChangeFavorite = (id) =>
         setUsers(
             users.map((user) =>
                 user._id === id ? { ...user, bookmark: !user.bookmark } : user
@@ -23,7 +23,7 @@ const App = () => {
             <Users
                 users={users}
                 onDelete={deleteUser}
-                onFavorite={addFavorite}
+                onFavorite={handleChangeFavorite}
             />
         </>
     );

@@ -30,10 +30,10 @@ const Filter = ({
                         </ListGroup.Item>
                     );
                 })}
+                <Button onClick={onClearFilter} variant="danger">
+                    Clear
+                </Button>
             </ListGroup>
-            <Button onClick={onClearFilter} variant="danger">
-                Clear
-            </Button>
         </>
     );
 };
