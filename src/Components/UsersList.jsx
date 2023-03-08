@@ -79,9 +79,7 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     const clearFilter = () => {
         setActiveProfession("");
     };
-    const filterdUsers = activeProfession
-        ? users.filter((user) => user.profession.name === activeProfession)
-        : users;
+    const filterdUsers = activeProfession ? users.filter((user) => user.profession.name === activeProfession) : users;
 
     const sortedUsers = _.orderBy(filterdUsers, [sortBy.iter], [sortBy.dir]);
 

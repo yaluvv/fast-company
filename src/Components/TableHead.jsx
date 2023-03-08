@@ -36,9 +36,7 @@ const TableHead = ({ columns, currentSort, onSort }) => {
                             onClick={() => handleActive(columns[item])}
                         >
                             {columns[item].name}
-                            {columns[item].key && columns[item].key === active
-                                ? changeIcon(currentSort)
-                                : ""}
+                            {columns[item].key && columns[item].key === active ? changeIcon(currentSort) : ""}
                         </th>
                     );
                 })}

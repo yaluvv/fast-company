@@ -10,10 +10,7 @@ const Filter = ({
     onClickProfession,
     onClearFilter
 }) => {
-    const profsArr =
-        !Array.isArray(items) && typeof professionst === "object"
-            ? Object.keys(items).map((prof) => items[prof])
-            : items;
+    const profsArr = !Array.isArray(items) && typeof professionst === "object" ? Object.keys(items).map((prof) => items[prof]) : items;
 
     return (
         <>
