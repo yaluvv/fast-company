@@ -1,9 +1,10 @@
 import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const TableBody = ({ data, columns }) => {
-    const renderContent = (obj, column) => {
+    const renderContent = (id, obj, column) => {
         if (columns[column].component) {
             const component = columns[column].component;
             if (typeof component === "function") {
@@ -11,7 +12,13 @@ const TableBody = ({ data, columns }) => {
             }
             return component;
         } else {
-            return _.get(obj, columns[column].key);
+            return columns[column].key === "name" ? (
+                <Link to={`/users/${id}`}>
+                    {_.get(obj, columns[column].key)}
+                </Link>
+            ) : (
+                _.get(obj, columns[column].key)
+            );
         }
     };
     return (
@@ -22,7 +29,7 @@ const TableBody = ({ data, columns }) => {
                         {Object.keys(columns).map((column) => {
                             return (
                                 <td key={column}>
-                                    {renderContent(item, column)}
+                                    {renderContent(item._id, item, column)}
                                 </td>
                             );
                         })}
