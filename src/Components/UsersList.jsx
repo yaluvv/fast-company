@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import _ from "lodash";
 
@@ -21,7 +22,7 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     const isLoad = React.useRef(true);
 
     const columns = {
-        name: { key: "name", name: "Имя" },
+        name: { key: "name", name: "Имя", component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link> },
         qualities: {
             name: "Качества",
             component: (user) => <QualitiesList qualities={user.qualities} />
