@@ -11,6 +11,7 @@ import TotalUsersTitle from "./TotalUsersTitle";
 import Table from "./Table";
 import Bookmark from "./Bookmark";
 import QualitiesList from "./QualitiesList";
+import Search from "./Search";
 
 const pageSize = 8;
 
@@ -18,11 +19,18 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     const [sortBy, setSortBy] = React.useState({ iter: "name", dir: "asc" });
     const [currentPage, setCurrentPage] = React.useState(1);
     const [professions, setProfessions] = React.useState([]);
+    const [value, setValue] = React.useState("");
     const [activeProfession, setActiveProfession] = React.useState("");
     const isLoad = React.useRef(true);
 
     const columns = {
-        name: { key: "name", name: "Имя", component: (user) => <Link to={`/users/${user._id}`}>{user.name}</Link> },
+        name: {
+            key: "name",
+            name: "Имя",
+            component: (user) => (
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
+            )
+        },
         qualities: {
             name: "Качества",
             component: (user) => <QualitiesList qualities={user.qualities} />
@@ -53,6 +61,11 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
         }
     };
 
+    const handleChange = ({ target }) => {
+        setValue(target.value);
+        setActiveProfession("");
+    };
+
     const paginate = (items, currentPage, pageSize) => {
         const startIndex = (currentPage - 1) * pageSize;
         return [...items].splice(startIndex, pageSize);
@@ -71,6 +84,7 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
 
     const handleActiveProfession = (item) => {
         setActiveProfession(item);
+        setValue("");
     };
 
     const handleSort = (item) => {
@@ -84,9 +98,11 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
 
     const sortedUsers = _.orderBy(filterdUsers, [sortBy.iter], [sortBy.dir]);
 
-    const itemsCount = filterdUsers.length;
+    const searchUsers = sortedUsers.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
 
-    const usersDivided = paginate(sortedUsers, currentPage, pageSize);
+    const usersData = value ? searchUsers : sortedUsers;
+    const usersDivided = paginate(usersData, currentPage, pageSize);
+    const itemsCount = value ? searchUsers.length : filterdUsers.length;
 
     const handleChangePage = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -95,6 +111,7 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     return (
         <div>
             <TotalUsersTitle length={itemsCount} />
+            <Search value={value} onChange={handleChange}/>
             <div className="table-down">
                 <Filter
                     items={professions}
