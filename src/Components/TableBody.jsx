@@ -6,6 +6,7 @@ const TableBody = ({ data, columns }) => {
     const renderContent = (obj, column) => {
         if (columns[column].component) {
             const component = columns[column].component;
+
             if (typeof component === "function") {
                 return component(obj);
             }
@@ -22,7 +23,7 @@ const TableBody = ({ data, columns }) => {
                         {Object.keys(columns).map((column) => {
                             return (
                                 <td key={column}>
-                                    {renderContent(item._id, item, column)}
+                                    {renderContent(item, column)}
                                 </td>
                             );
                         })}
