@@ -21,10 +21,7 @@
         }
     },
     "rules": {
-        "indent": [
-            "error",
-            4
-        ], // Отступ количество пробелов
+        "indent": "off", // Отступ количество пробелов
         "semi": [
             2,
             "always"
@@ -45,9 +42,6 @@
                 "allowTemplateLiterals": true
             }
         ],
-        "multiline-ternary": [
-            "error",
-            "never"
-        ]
+        "multiline-ternary": ["off"]
     }
 }

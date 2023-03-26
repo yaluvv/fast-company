@@ -1,15 +1,16 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import API from "../API/index";
+import API from "../../../../API/index";
 import PropTypes from "prop-types";
-import QualitiesList from "./QualitiesList";
+import QualitiesList from "../../../UI/QualitiesList";
 import Button from "react-bootstrap/Button";
 
 const User = ({ id }) => {
     const [post, setPost] = React.useState();
+
     const history = useHistory();
 
-    const handleSave = () => history.replace("/users");
+    const handleSave = () => history.push(`/users/${id}/edit`);
 
     React.useEffect(() => {
         API.users.getById(id).then((data) => {
@@ -28,7 +29,7 @@ const User = ({ id }) => {
                         <li>{<QualitiesList qualities={post.qualities} />}</li>
                     </ul>
                     <Button onClick={handleSave} variant="secondary">
-                        Назад
+                        Редактировать
                     </Button>
                 </div>
             ) : (

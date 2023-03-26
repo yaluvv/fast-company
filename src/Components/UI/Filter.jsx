@@ -10,7 +10,16 @@ const Filter = ({
     onClickProfession,
     onClearFilter
 }) => {
-    const profsArr = !Array.isArray(items) && typeof professionst === "object" ? Object.keys(items).map((prof) => items[prof]) : items;
+    const profsArr = React.useMemo(() => {
+        return !Array.isArray(items) && typeof items === "object"
+            ? Object.keys(items).map((prof) => items[prof])
+            : items;
+    }, [items]);
+
+    if (profsArr.length < 1) {
+        return <h3>Loading...</h3>;
+    }
+
     return (
         <>
             <ListGroup>
