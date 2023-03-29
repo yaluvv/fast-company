@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 
 import _ from "lodash";
 
-import API from "../API";
-import Filter from "./Filter";
-import AdvancedExample from "./Pagination";
-import TotalUsersTitle from "./TotalUsersTitle";
-import Table from "./Table";
-import Bookmark from "./Bookmark";
-import QualitiesList from "./QualitiesList";
-import Search from "./Search";
+import API from "../../../../API";
+import AdvancedExample from "../../Pagination";
+import TotalUsersTitle from "../../../UI/TotalUsersTitle";
+import Table from "../../Table/Table";
+import Bookmark from "../../Bookmark";
+import QualitiesList from "../../../UI/QualitiesList";
+import Search from "../../../UI/Search";
+import Filter from "../../../UI/Filter";
 
 const pageSize = 8;
 
@@ -72,10 +72,17 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     };
 
     React.useEffect(() => {
-        API.professions.fetchAll().then((data) => {
-            setProfessions(data);
-            isLoad.current = false;
-        });
+        const fetchUsers = async () => {
+            try {
+                const data = await API.professions.fetchAll();
+                setProfessions(data);
+                isLoad.current = false;
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUsers();
     }, []);
 
     React.useEffect(() => {
@@ -94,11 +101,15 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     const clearFilter = () => {
         setActiveProfession("");
     };
-    const filterdUsers = activeProfession ? users.filter((user) => user.profession.name === activeProfession) : users;
+    const filterdUsers = activeProfession
+        ? users.filter((user) => user.profession.name === activeProfession)
+        : users;
 
     const sortedUsers = _.orderBy(filterdUsers, [sortBy.iter], [sortBy.dir]);
 
-    const searchUsers = sortedUsers.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
+    const searchUsers = sortedUsers.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+    );
 
     const usersData = value ? searchUsers : sortedUsers;
     const usersDivided = paginate(usersData, currentPage, pageSize);
@@ -111,7 +122,7 @@ const UsersList = ({ users, onDelete, onFavorite }) => {
     return (
         <div>
             <TotalUsersTitle length={itemsCount} />
-            <Search value={value} onChange={handleChange}/>
+            <Search value={value} onChange={handleChange} />
             <div className="table-down">
                 <Filter
                     items={professions}
