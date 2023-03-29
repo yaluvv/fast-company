@@ -28,7 +28,7 @@ function SelectField({
             </label>
 
             <select
-                value={value._id}
+                value={value}
                 id={name}
                 name={name}
                 onChange={handleChange}

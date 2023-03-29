@@ -7,14 +7,16 @@ const MultiSelectField = ({ defaultValue, options, onChange, name, value }) => {
         !Array.isArray(options) && typeof options === "object"
             ? Object.keys(options).map((item) => ({
                   label: options[item].name,
-                  value: options[item]._id
+                  value: options[item]._id,
+                  color: options[item].color
               }))
             : options;
 
     const newValue = value
         ? value.map((item) => ({
               label: item.name,
-              value: item._id
+              value: item._id,
+              color: item.color
           }))
         : [];
 
@@ -22,7 +24,8 @@ const MultiSelectField = ({ defaultValue, options, onChange, name, value }) => {
         const newValue = value
             ? value.map((item) => ({
                   name: item.label,
-                  _id: item.value
+                  _id: item.value,
+                  color: item.color
               }))
             : [];
         onChange({ name, value: newValue });
@@ -36,7 +39,7 @@ const MultiSelectField = ({ defaultValue, options, onChange, name, value }) => {
                 isRequired
                 value={newValue}
                 closeMenuOnSelect={false}
-                defaultValue={optionsArray[2]}
+                defaultValue={defaultValue}
                 options={optionsArray}
                 className="basic-multi-select form-control"
                 classNamePrefix="select"

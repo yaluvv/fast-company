@@ -19,7 +19,11 @@ const EditUserForm = ({ id }) => {
         const fetchProfessions = async () => {
             try {
                 const data = await API.professions.fetchAll();
-                setProfessions(data);
+                const newData =
+                    !Array.isArray(data) && typeof data === "object"
+                        ? Object.keys(data).map((prof) => data[prof])
+                        : data;
+                setProfessions(newData);
             } catch (error) {
                 console.error(error);
             }
@@ -37,7 +41,11 @@ const EditUserForm = ({ id }) => {
         const fetchUser = async () => {
             try {
                 const data = await API.users.getById(id);
-                setUserData(data);
+
+                setUserData({
+                    ...data,
+                    profession: data.profession._id
+                });
             } catch (error) {
                 console.error(error);
             }
@@ -47,7 +55,6 @@ const EditUserForm = ({ id }) => {
         fetchQualities();
         fetchUser();
     }, []);
-
     const validateConfig = {
         email: {
             isRequired: {
@@ -71,9 +78,16 @@ const EditUserForm = ({ id }) => {
         }));
     };
 
+    const getProfessionById = (id) => {
+        return professions.find((item) => item._id === id);
+    };
+
     const updateData = async () => {
         try {
-            await API.users.update(id, userData);
+            await API.users.update(id, {
+                ...userData,
+                profession: getProfessionById(userData.profession)
+            });
         } catch (error) {
             console.error(error);
         }
@@ -122,6 +136,7 @@ const EditUserForm = ({ id }) => {
                     onChange={handleChange}
                     error={error.name}
                 />
+
                 <SelectField
                     label="Выбери свою профессию"
                     defaultValue="Выбрать профессию"
