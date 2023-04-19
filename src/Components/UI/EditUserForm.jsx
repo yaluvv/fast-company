@@ -15,6 +15,8 @@ const EditUserForm = ({ id }) => {
     const [qualities, setQualities] = React.useState([]);
     const history = useHistory();
 
+    const handleExit = () => history.push(`/users/${id}`);
+
     React.useEffect(() => {
         const fetchProfessions = async () => {
             try {
@@ -164,9 +166,17 @@ const EditUserForm = ({ id }) => {
                     onChange={handleChange}
                     options={qualities}
                 />
-                <button disabled={Object.keys(error).length !== 0}>
-                    Send data
-                </button>
+                <div className="d-flex justify-content-between align-items-end">
+                    <button
+                        className="mt-4"
+                        disabled={Object.keys(error).length !== 0}
+                    >
+                        Обновить данные
+                    </button>
+                    <button type="button" onClick={handleExit}>
+                        Вернуться назад
+                    </button>
+                </div>
             </form>
         </>
     );
