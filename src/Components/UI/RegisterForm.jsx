@@ -122,7 +122,7 @@ const RegisterForm = ({ onToggleForm }) => {
                 {Object.keys(professions).length > 0 ? (
                     <SelectField
                         label="Выбери свою профессию"
-                        defaultValue="Выбрать профессию"
+                        helperText="Выбрать профессию"
                         options={professions}
                         onChange={handleChange}
                         name="profession"

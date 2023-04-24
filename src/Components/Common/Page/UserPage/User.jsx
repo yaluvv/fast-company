@@ -7,7 +7,7 @@ import QualitiesCard from "../../../UI/QualitiesCard";
 import MeetingsCard from "../../../UI/MeetingsCard";
 import CommentsList from "../../../UI/CommentsList";
 
-const User = ({ id }) => {
+const User = ({ id, users }) => {
     const [post, setPost] = React.useState();
 
     const history = useHistory();
@@ -22,7 +22,7 @@ const User = ({ id }) => {
 
     return (
         <div className="container">
-            {post ? (
+            {post && users.length ? (
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
                         <UserCard
@@ -35,7 +35,7 @@ const User = ({ id }) => {
                         <MeetingsCard meetingsCount={post.completedMeetings} />
                     </div>
                     <div className="col-md-8">
-                        <CommentsList />
+                        <CommentsList id={id} users={users} />
                     </div>
                 </div>
             ) : (
@@ -46,7 +46,8 @@ const User = ({ id }) => {
 };
 
 User.propTypes = {
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    users: PropTypes.array
 };
 
 export default User;
