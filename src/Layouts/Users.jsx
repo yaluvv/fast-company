@@ -23,7 +23,7 @@ const Users = () => {
     }, []);
 
     return id ? (
-        <User id={id} />
+        <User id={id} users={users} />
     ) : (
         <UsersList
             users={users}

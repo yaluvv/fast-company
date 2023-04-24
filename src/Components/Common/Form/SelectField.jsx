@@ -7,10 +7,10 @@ function SelectField({
     value,
     onChange,
     name,
-    defaultValue,
+    helperText,
     error
 }) {
-    const profsArr =
+    const arr =
         !Array.isArray(options) && typeof options === "object"
             ? Object.keys(options).map((prof) => options[prof])
             : options;
@@ -37,10 +37,9 @@ function SelectField({
                 }`}
             >
                 <option value="" disabled>
-                    Выбрать профессию
+                    {helperText}
                 </option>
-
-                {profsArr.map((option) => (
+                {arr.map((option) => (
                     <option value={option._id} key={option._id}>
                         {option.name}
                     </option>
@@ -51,10 +50,10 @@ function SelectField({
     );
 }
 SelectField.propTypes = {
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    value: PropTypes.string,
     error: PropTypes.string,
-    defaultValue: PropTypes.string.isRequired,
+    helperText: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
